@@ -2,6 +2,7 @@ package com.felipedias.projeto_final_blog_api.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "tb_author")
@@ -15,10 +16,10 @@ public class Author {
     private String bio;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Post> featuredPosts;
+    private List<Post> featuredPosts = new ArrayList<>();
 
     public Long getId(){
         return id;

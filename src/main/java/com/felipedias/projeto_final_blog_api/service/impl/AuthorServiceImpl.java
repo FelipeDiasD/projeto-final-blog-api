@@ -26,6 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void createAuthor(Author authorObj) {
+        //authors must have name
         authorRepository.save(authorObj);
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 public interface PostService {
 
     Post searchPostById(Long id);
-    List<Post> getAllPosts(Long id);
+    List<Post> getAllPosts();
     Post searchPostByTitle(String title);
     void createPost(Post post);
     void updatePost(Long id, Post post);

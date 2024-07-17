@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity(name ="tb_post")
 public class Post {
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
