@@ -2,6 +2,7 @@ package com.felipedias.projeto_final_blog_api.service.impl;
 
 import com.felipedias.projeto_final_blog_api.model.Author;
 import com.felipedias.projeto_final_blog_api.model.Post;
+import com.felipedias.projeto_final_blog_api.repository.AuthorRepository;
 import com.felipedias.projeto_final_blog_api.repository.PostRepository;
 import com.felipedias.projeto_final_blog_api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @Override
     public Post searchPostById(Long id) {
@@ -38,7 +42,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost(Post post) {
-        //Posts must have title, description and content
+        //Posts must have title, description and content and reference an author
+
+        var authorId = post.getAuthor().getId();
+
+        if(authorRepository.findById(authorId).isEmpty()){
+            //todo throw an exception
+            return;
+        }
+
+
+
         if(post.getTitle() == null || post.getTitle().isEmpty()){
             //todo throw an exception
             return;
@@ -54,8 +68,13 @@ public class PostServiceImpl implements PostService {
             return;
         }
 
-
         postRepository.save(post);
+
+        if(post.getFeatured() == true){
+            var existingAuthor = authorRepository.findById(authorId).get();
+            existingAuthor.addFeaturedPosts(post);
+            authorRepository.save(existingAuthor);
+        }
     }
 
     @Override
@@ -69,11 +88,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void featurePost(Long id, Boolean isFeatured) {
-        Post targetPost = postRepository.findById(id).get();
+    public void featureExistingPost(Long id, Boolean isFeatured) {
+        var targetPost = postRepository.findById(id).get();
+        var existingAuthor = authorRepository.findById(targetPost.getAuthor().getId()).get();
+
         if(isFeatured == true){
-            targetPost.getAuthor().getFeaturedPosts().add(targetPost);
+            targetPost.setFeatured(true);
+            existingAuthor.addFeaturedPosts(targetPost);
+            postRepository.save(targetPost);
+            authorRepository.save(existingAuthor);
         }
-        targetPost.setFeatured(isFeatured);
     }
 }

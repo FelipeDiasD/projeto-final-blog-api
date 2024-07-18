@@ -18,7 +18,7 @@ public class AuthorController {
 
     @GetMapping
     public ResponseEntity<List<Author>> searchAllAuthors(){
-        return ResponseEntity.ok(authorService.getAllAuthors());
+        return ResponseEntity.ok().body(authorService.getAllAuthors());
     }
 
     @GetMapping("/author/{id}")
@@ -29,12 +29,12 @@ public class AuthorController {
     @PostMapping("/author")
     public ResponseEntity insertAuthor(Author author){
         authorService.createAuthor(author);
-        return ResponseEntity.ok("CREATED AUTHOR");
+        return ResponseEntity.status(201).body(author);
     }
 
     @DeleteMapping("/author/{id}")
     public ResponseEntity deleteAuthor(@PathVariable Long id){
         authorService.deleteById(id);
-        return ResponseEntity.ok("DELETED AUTHOR");
+        return ResponseEntity.accepted().body("DELETED AUTHOR");
     }
 }

@@ -44,7 +44,7 @@ public class PostController {
 
     @PutMapping("/post/feature/{id}")
     public ResponseEntity featureOnePost(@PathVariable Long id, @RequestBody Boolean feature){
-        postService.featurePost(id, feature);
+        postService.featureExistingPost(id, feature);
         return ResponseEntity.ok("POST FEATURED!");
     }
 

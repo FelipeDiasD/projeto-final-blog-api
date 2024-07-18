@@ -11,7 +11,7 @@ public interface PostService {
     Post searchPostByTitle(String title);
     void createPost(Post post);
     void updatePost(Long id, Post post);
-    void featurePost(Long id, Boolean isFeatured);
+    void featureExistingPost(Long id, Boolean isFeatured);
 
 
 }
