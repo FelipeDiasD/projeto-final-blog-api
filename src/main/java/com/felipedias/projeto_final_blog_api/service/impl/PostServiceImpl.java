@@ -27,7 +27,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post searchPostByTitle(String title) {
-        return postRepository.findByTitle(title).get();
+        var foundPost = postRepository.findByTitle(title).get();
+        if(foundPost == null){
+            //todo throw an exception
+            return null;
+        }
+
+        return foundPost;
     }
 
     @Override
@@ -48,7 +54,7 @@ public class PostServiceImpl implements PostService {
             return;
         }
 
-    
+
         postRepository.save(post);
     }
 

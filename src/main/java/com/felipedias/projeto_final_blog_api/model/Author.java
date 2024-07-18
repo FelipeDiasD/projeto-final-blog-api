@@ -1,5 +1,6 @@
 package com.felipedias.projeto_final_blog_api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity(name = "tb_author")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,10 +17,12 @@ public class Author {
     private String email;
     private String bio;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Post> featuredPosts = new ArrayList<>();
 
     public Long getId(){
@@ -57,15 +61,15 @@ public class Author {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void addPost(Post post) {
+        this.posts.add(post);
     }
 
     public List<Post> getFeaturedPosts() {
         return featuredPosts;
     }
 
-    public void setFeaturedPosts(List<Post> featuredPosts) {
-        this.featuredPosts = featuredPosts;
+    public void addFeaturedPosts(Post featurePost) {
+        this.featuredPosts.add(featurePost);
     }
 }

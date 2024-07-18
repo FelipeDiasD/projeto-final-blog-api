@@ -1,5 +1,6 @@
 package com.felipedias.projeto_final_blog_api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -25,7 +26,9 @@ public class Post {
    private Boolean featured;
    private List<Category> categories;
 
+   @JsonBackReference
    @ManyToOne
+   @JoinColumn(name = "author_id", referencedColumnName = "id")
    private Author author;
 
     public Long getId() {
