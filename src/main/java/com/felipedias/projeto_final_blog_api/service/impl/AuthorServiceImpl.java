@@ -1,5 +1,6 @@
 package com.felipedias.projeto_final_blog_api.service.impl;
 
+import com.felipedias.projeto_final_blog_api.controller.exception.ResourceNotFoundException;
 import com.felipedias.projeto_final_blog_api.model.Author;
 import com.felipedias.projeto_final_blog_api.repository.AuthorRepository;
 import com.felipedias.projeto_final_blog_api.service.AuthorService;
@@ -16,7 +17,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author searchById(Long id) {
-        return authorRepository.findById(id).get();
+        var foundAuthor = authorRepository.findById(id);
+        if(foundAuthor.isEmpty()){
+            throw new ResourceNotFoundException(id);
+        }
+        return foundAuthor.get();
     }
 
     @Override
@@ -26,7 +31,14 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void createAuthor(Author authorObj) {
-        //authors must have name
+        //authors must have name and email
+        if(authorObj.getName() == null || authorObj.getName().isEmpty()){
+            throw new IllegalArgumentException("Author must have a name!");
+        }
+
+        if(authorObj.getEmail() == null || authorObj.getEmail().isEmpty()){
+            throw new IllegalArgumentException("Author must have a email!");
+        }
         authorRepository.save(authorObj);
     }
 

@@ -25,7 +25,7 @@ public class PostController {
         return ResponseEntity.ok(postService.searchPostById(id));
     }
 
-    @GetMapping("/post/{title}")
+    @GetMapping("/post/title/{title}")
     public ResponseEntity<Post> searchPostById(@PathVariable String title){
         return ResponseEntity.ok(postService.searchPostByTitle(title));
     }

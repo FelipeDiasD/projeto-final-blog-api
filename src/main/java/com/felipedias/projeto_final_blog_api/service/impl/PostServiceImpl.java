@@ -1,5 +1,6 @@
 package com.felipedias.projeto_final_blog_api.service.impl;
 
+import com.felipedias.projeto_final_blog_api.controller.exception.ResourceNotFoundException;
 import com.felipedias.projeto_final_blog_api.model.Author;
 import com.felipedias.projeto_final_blog_api.model.Post;
 import com.felipedias.projeto_final_blog_api.repository.AuthorRepository;
@@ -21,7 +22,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post searchPostById(Long id) {
-        return postRepository.findById(id).get();
+        var foundPost = postRepository.findById(id);
+        if(foundPost.isEmpty()){
+            throw new ResourceNotFoundException(id);
+        }
+        return foundPost.get();
     }
 
     @Override
@@ -31,13 +36,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post searchPostByTitle(String title) {
-        var foundPost = postRepository.findByTitle(title).get();
-        if(foundPost == null){
-            //todo throw an exception
-            return null;
+        var foundPost = postRepository.findByTitle(title);
+
+        if(foundPost.isEmpty()){
+            throw new ResourceNotFoundException(title);
         }
 
-        return foundPost;
+        return foundPost.get();
     }
 
     @Override
