@@ -3,6 +3,7 @@ package com.felipedias.projeto_final_blog_api.service.impl;
 import com.felipedias.projeto_final_blog_api.controller.exception.ResourceNotFoundException;
 import com.felipedias.projeto_final_blog_api.model.Author;
 import com.felipedias.projeto_final_blog_api.model.Post;
+import com.felipedias.projeto_final_blog_api.model.dto.PostDTO;
 import com.felipedias.projeto_final_blog_api.repository.AuthorRepository;
 import com.felipedias.projeto_final_blog_api.repository.PostRepository;
 import com.felipedias.projeto_final_blog_api.service.PostService;
@@ -35,14 +36,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post searchPostByTitle(String title) {
-        var foundPost = postRepository.findByTitle(title);
+    public List<Post> searchPostByTitle(String title) {
+        var foundPosts = postRepository.findByTitle(title);
 
-        if(foundPost.isEmpty()){
-            throw new ResourceNotFoundException(title);
-        }
+        return foundPosts;
 
-        return foundPost.get();
+
     }
 
     @Override
@@ -52,25 +51,19 @@ public class PostServiceImpl implements PostService {
         var authorId = post.getAuthor().getId();
 
         if(authorRepository.findById(authorId).isEmpty()){
-            //todo throw an exception
-            return;
+            throw new ResourceNotFoundException(authorId);
         }
 
-
-
         if(post.getTitle() == null || post.getTitle().isEmpty()){
-            //todo throw an exception
-            return;
+            throw new IllegalArgumentException("Posts must have a title!");
         }
 
         if(post.getDescription() == null || post.getDescription().isEmpty()){
-            //todo throw an exception
-            return;
+            throw new IllegalArgumentException("Posts must have a description!");
         }
 
         if(post.getContent() == null || post.getContent().isEmpty()){
-            //todo throw an exception
-            return;
+            throw new IllegalArgumentException("Posts must have content!");
         }
 
         postRepository.save(post);
@@ -83,17 +76,36 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(Long id, Post post) {
+    public void updatePost(Long id, PostDTO post) {
+
+        if(!postRepository.existsById(id)){
+            throw new ResourceNotFoundException(id);
+        }
+
+        var foundPost = postRepository.findById(id).get();
+
+        if(post.getTitle() != null && !post.getTitle().isEmpty()){
+            foundPost.setTitle(post.getTitle());
+        }
+        if(post.getDescription() != null && !post.getDescription().isEmpty()){
+            foundPost.setDescription(post.getDescription());
+        }
+        if(post.getContent() != null && !post.getContent().isEmpty()){
+            foundPost.setContent(post.getContent());
+        }
 
         //Only available to update is the content of the post (title, description and content)
-        Post targetPost = postRepository.findById(id).get();
-        targetPost.setDescription(post.getDescription());
-        targetPost.setContent(post.getContent());
-        postRepository.save(targetPost);
+
+        postRepository.save(foundPost);
     }
 
     @Override
     public void featureExistingPost(Long id, Boolean isFeatured) {
+
+        if(!postRepository.existsById(id)){
+            throw new ResourceNotFoundException(id);
+        }
+
         var targetPost = postRepository.findById(id).get();
         var existingAuthor = authorRepository.findById(targetPost.getAuthor().getId()).get();
 
@@ -103,5 +115,15 @@ public class PostServiceImpl implements PostService {
             postRepository.save(targetPost);
             authorRepository.save(existingAuthor);
         }
+    }
+
+    @Override
+    public void deleteExistingPost(Long id){
+
+        if(!postRepository.existsById(id)){
+            throw new ResourceNotFoundException(id);
+        }
+        postRepository.deleteById(id);
+
     }
 }
