@@ -1,7 +1,6 @@
-# Service Record app
+# Blog API
 
-Uma aplicação para registrar serviços de TI
-
+Java RESTful API criada para o bootcamp Santander 2024 - Backend com Java
 
 ## Table of contents
 
