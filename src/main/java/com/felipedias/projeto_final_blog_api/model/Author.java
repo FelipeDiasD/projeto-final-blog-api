@@ -18,7 +18,7 @@ public class Author {
     private String bio;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "author", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
 
     @JsonManagedReference

@@ -77,6 +77,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(Long id, PostDTO post) {
+        //Only available to update is the content of the post (title, description and content)
 
         if(!postRepository.existsById(id)){
             throw new ResourceNotFoundException(id);
@@ -94,7 +95,7 @@ public class PostServiceImpl implements PostService {
             foundPost.setContent(post.getContent());
         }
 
-        //Only available to update is the content of the post (title, description and content)
+
 
         postRepository.save(foundPost);
     }
@@ -123,6 +124,15 @@ public class PostServiceImpl implements PostService {
         if(!postRepository.existsById(id)){
             throw new ResourceNotFoundException(id);
         }
+        var foundPost = postRepository.findById(id).get();
+
+        if(foundPost.getFeatured() == true){
+
+            var postAuthor = foundPost.getAuthor();
+            postAuthor.getFeaturedPosts().remove(foundPost);
+            authorRepository.save(postAuthor);
+        }
+
         postRepository.deleteById(id);
 
     }
