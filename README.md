@@ -175,7 +175,7 @@ Adicionar um autor
 ````
 
 Adicionar um post
-- URL: /authors
+- URL: /posts
 - Method: POST
 - Request Body:
 ````
@@ -208,12 +208,33 @@ Adicionar um post
 }
 ````
 
-
+Atualizar um autor
+- URL: /authors/{id}
+- Method: POST
+- Request Body:
+````
+{
+  "name": "string",
+  "email": "string",
+  "bio": "string"
+}
+````
+- Response:
+````
+{
+  "id": 1,
+  "name": "string",
+  "email": "string",
+  "bio": "string",
+  "posts": [],
+  "featuredPosts": []
+}
+````
 
 ### Links
 
 
-- URL do deploy: [swagger](https://projeto-final-blog-api-prd.up.railway.app)
+- URL do deploy: [URL para teste com swagger](https://projeto-final-blog-api-prd.up.railway.app/swagger-ui/index.html)
 
 ## Meu desenvolvimento
 
@@ -242,7 +263,7 @@ utilizando yaml.
 
 - [Documentação do springboot]()
 - [Documentação do OpenAPI]()
-- [Documentação do Railay]()
+- [Documentação do Railway]()
 - 
 ## Autor
 

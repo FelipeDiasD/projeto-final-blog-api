@@ -54,10 +54,10 @@ public class AuthorServiceImpl implements AuthorService {
         var foundAuthor = authorRepository.findById(id).get();
 
         if(authorObj.getName() != null && !authorObj.getName().isEmpty()){
-            foundAuthor.setBio(authorObj.getBio());
+            foundAuthor.setName(authorObj.getName());
         }
         if(authorObj.getEmail() != null && !authorObj.getEmail().isEmpty()){
-            foundAuthor.setBio(authorObj.getBio());
+            foundAuthor.setEmail(authorObj.getEmail());
         }
         if(authorObj.getBio() != null && !authorObj.getBio().isEmpty() ){
             foundAuthor.setBio(authorObj.getBio());
