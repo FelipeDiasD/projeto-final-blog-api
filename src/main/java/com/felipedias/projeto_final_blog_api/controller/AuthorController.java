@@ -39,7 +39,7 @@ public class AuthorController {
         authorService.updateAuthor(id, authorDTO);
         return ResponseEntity.status(HttpStatus.OK).body(authorService.searchById(id));
     }
-    
+
     @DeleteMapping("/author/{id}")
     public ResponseEntity deleteAuthor(@PathVariable Long id){
         authorService.deleteById(id);
