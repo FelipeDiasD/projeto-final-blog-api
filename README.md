@@ -6,7 +6,9 @@ Uma aplicação para registrar serviços de TI
 ## Table of contents
 
 - [Visão geral](#visão-geral)
-  - [A applicação](#a-aplicação)
+- [A applicação](#a-aplicação)
+  - [Diagrama](#diagrama-preliminar) 
+  - [Endpoints](#endpoints)
   - [Links](#links)
 - [Meu desenvolvimento](#meu-desenvolvimento)
   - [Ferramentas utilizadas](#built-with)
@@ -21,17 +23,19 @@ Uma aplicação para registrar serviços de TI
 Essa aplicação foi construída com o simples propósito de servir como uma
 API base para um blog de propósito comum.
 
-### A aplicação
+## A aplicação
 
 Esta aplicação Java RESTful API foi criada como projeto final do bootcamp Santander 2024 - Backend com Java
 com o intuito de consolidar os tópicos estudados durante o curso.
 
-#### Endpoints
+### Diagrama preliminar
+
+### Endpoints
 
 Retornar todos os autores
 - URL: /authors
 - Method: GET
-- Response:
+- Response: CODE 200
 ````
 [
   {
@@ -56,9 +60,9 @@ Retornar todos os autores
 ````
 
 Retornar um autor
-- URL: /authors/author/id
+- URL: /authors/author/{id}
 - Method: GET
-- Response:
+- Response: CODE 200
 ````
 {
   "id": 1,
@@ -78,9 +82,133 @@ Retornar um autor
     }
   ]
 }
-
 ````
-#### Diagrama preliminar
+
+Retornar todos os posts
+- URL: /posts
+- Method: GET
+- Response: CODE 200
+````
+[
+  {
+    "id": 1,
+    "title": "string",
+    "description": "string",
+    "content": "string",
+    "postDate": "2024-07-23",
+    "featured": true,
+    "categories": [
+      "NEWS"
+    ]
+  },
+  
+    {
+    "id": 2,
+    "title": "string",
+    "description": "string",
+    "content": "string",
+    "postDate": "2024-07-23",
+    "featured": false,
+    "categories": [
+      "TECH"
+    ]
+  }
+]
+````
+
+Retornar um post
+- URL: /posts/post/{id}
+- Method: GET
+- Response: CODE 200
+````
+{
+    "id": 1,
+    "title": "string",
+    "description": "string",
+    "content": "string",
+    "postDate": "2024-07-23",
+    "featured": true,
+    "categories": [
+      "NEWS"
+    ]
+}
+````
+
+Retornar um post pelo título
+- URL: /posts/post/title/{title}
+- Method: GET
+- Response: CODE 200
+````
+{
+    "id": 1,
+    "title": "string",
+    "description": "string",
+    "content": "string",
+    "postDate": "2024-07-23",
+    "featured": true,
+    "categories": [
+      "NEWS"
+    ]
+}
+````
+
+Adicionar um autor
+- URL: /authors
+- Method: POST
+- Request Body:
+````
+{
+  "name": "string",
+  "email": "string",
+  "bio": "string"
+}
+````
+- Response:
+````
+{
+  "id": 1,
+  "name": "string",
+  "email": "string",
+  "bio": "string",
+  "posts": [],
+  "featuredPosts": []
+}
+````
+
+Adicionar um post
+- URL: /authors
+- Method: POST
+- Request Body:
+````
+{
+  "title": "string",
+  "description": "string",
+  "content": "string",
+  "featured": true,
+  "categories": [
+    "NEWS"
+  ],
+  "author": {
+    "id": 1
+
+  }
+}
+````
+- Response: CODE 201
+````
+{
+  "id": 1,
+  "title": "string",
+  "description": "string",
+  "content": "string",
+  "postDate": "2024-07-23",
+  "featured": true,
+  "categories": [
+    "NEWS"
+  ]
+}
+````
+
 
 
 ### Links

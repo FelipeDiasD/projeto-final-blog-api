@@ -1,6 +1,7 @@
 package com.felipedias.projeto_final_blog_api.controller;
 
 import com.felipedias.projeto_final_blog_api.model.Author;
+import com.felipedias.projeto_final_blog_api.model.dto.AuthorDTO;
 import com.felipedias.projeto_final_blog_api.service.AuthorService;
 import com.felipedias.projeto_final_blog_api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(author);
     }
 
+    @PutMapping("/author/{id}")
+    public ResponseEntity updateAuthorById(@PathVariable Long id, AuthorDTO authorDTO){
+        authorService.updateAuthor(id, authorDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(authorService.searchById(id));
+    }
+    
     @DeleteMapping("/author/{id}")
     public ResponseEntity deleteAuthor(@PathVariable Long id){
         authorService.deleteById(id);
