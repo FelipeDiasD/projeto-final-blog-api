@@ -110,6 +110,10 @@ public class PostServiceImpl implements PostService {
         var targetPost = postRepository.findById(id).get();
         var existingAuthor = authorRepository.findById(targetPost.getAuthor().getId()).get();
 
+        if(targetPost.getFeatured() == true){
+            throw new IllegalArgumentException("Post already featured");
+        }
+
         if(isFeatured == true){
             targetPost.setFeatured(true);
             existingAuthor.addFeaturedPosts(targetPost);
