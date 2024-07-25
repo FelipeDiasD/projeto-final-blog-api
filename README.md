@@ -28,8 +28,30 @@ Esta aplicação Java RESTful API foi criada como projeto final do bootcamp Sant
 com o intuito de consolidar os tópicos estudados durante o curso.
 
 ### Diagrama preliminar
+````mermaid
+classDiagram
 
+class Author {
+        -String name
+        -String email
+        -String bio
+        +List~Post~ posts
+    }
+class Post {
+        -String title
+        -String description
+        -String content
+        -LocalDate creationDate
+        +List~Category~ categories
+    }
+class Category {
+        -String category1
+        -String category2
+    }
 
+Author "1" -- "many" Post
+Post "1" -- "many" Category
+````
 
 ### Endpoints
 
